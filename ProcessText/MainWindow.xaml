@@ -71,6 +71,8 @@
                     <ComboBox x:Name="OrderSelection"
                               Grid.Column="1"
                               Style="{DynamicResource ComboBoxStyle}"
+                              ItemsSource="{Binding Orders}"
+                              SelectedItem="{Binding SelectedOrder}"
                               />
                 </Grid>
                 <ListView x:Name="ListOfWords"

@@ -111,10 +111,15 @@
         <Setter Property="Margin" Value="10"/>
     </Style>
     <!--#endregion-->
-    
+
     <!--#region Combo boxes-->
     <Style x:Key="ComboBoxStyle" TargetType="ComboBox">
         <Setter Property="Margin" Value="10 20 10 10"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="FontSize" Value="30"/>
     </Style>
     <!--#endregion-->
 </ResourceDictionary>

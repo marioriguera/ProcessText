@@ -99,12 +99,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\OrderOptionsService.cs" />
+    <Compile Include="Contracts\Models\IOrderOption.cs" />
+    <Compile Include="Contracts\IOrderOptionsService.cs" />
     <Compile Include="Dependencies\Register.cs" />
+    <Compile Include="Models\OrderOption.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Business\" />
-    <Folder Include="Contracts\" />
     <Folder Include="Factory\" />
   </ItemGroup>
   <ItemGroup>

@@ -1,9 +1,17 @@
-﻿using NLog.Fluent;
+﻿using Microsoft.Extensions.DependencyInjection;
+using NLog.Fluent;
 using ProcessText.Commands;
+using ProcessText.Config;
+using ProcessText.Core.Contracts;
+using ProcessText.Core.Contracts.Models;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace ProcessText.ViewModels
 {
@@ -25,6 +33,11 @@ namespace ProcessText.ViewModels
         private string _textToProcess;
         private string _insertTextTittle;
         private string _orderTittle;
+        private List<ComboBoxItem> _orders;
+
+        // Services
+        private IOrderOptionsService _orderOptionsService;
+        private ComboBoxItem _selectedOrder;
 
         #endregion
 
@@ -45,8 +58,17 @@ namespace ProcessText.ViewModels
             NumberOfWords = ulong.MinValue;
             NumberOfWhiteSpaces = ulong.MinValue;
 
+            Orders = new List<ComboBoxItem>();
+
             // Initializes commands.
             CloseAppCommand = new RelayCommand<object>(CanExecuteCloseAppCommand, ExecuteCloseAppCommand);
+
+            // Dependencies
+            if (!ConfigurationService.IsInDesignMode)
+            {
+                _orderOptionsService = ConfigurationService.Current.Host.Services.GetRequiredService<IOrderOptionsService>();
+                UpdateOrders();
+            }
         }
 
         /// <summary>
@@ -231,9 +253,88 @@ namespace ProcessText.ViewModels
         }
 
         /// <summary>
+        /// Gets or sets orders.
+        /// </summary>
+        public List<ComboBoxItem> Orders
+        {
+            get => _orders;
+            set
+            {
+                if (_orders != value)
+                {
+                    _orders = value;
+                    NotifyPropertyChanged(nameof(Orders));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets selected order.
+        /// </summary>
+        public ComboBoxItem SelectedOrder
+        {
+            get => _selectedOrder;
+            set
+            {
+                if (_selectedOrder != value)
+                {
+                    _selectedOrder = value;
+                    NotifyPropertyChanged(nameof(SelectedOrder));
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets or sets close app command.
         /// </summary>
         public RelayCommand<object> CloseAppCommand { get; set; }
+
+        /// <summary>
+        /// Updates the Orders collection based on the available order options.
+        /// </summary>
+        private void UpdateOrders()
+        {
+            try
+            {
+                // Get the order options from the service
+                List<IOrderOption> orderOptions = _orderOptionsService.GetOrderOptions().ToList();
+
+                // Clear the existing Orders collection
+                Orders.Clear();
+
+                // Add new items to the collection
+                foreach (var option in orderOptions)
+                {
+                    AddComboBoxItem(option);
+                }
+
+                SelectedOrder = Orders.FirstOrDefault();
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception as needed (e.g., log or display an error message)
+                Log.Error($"Error updating orders: {ex.Message}");
+            }
+        }
+
+        /// <summary>
+        /// Adds a ComboBoxItem to the Orders collection based on the provided order option.
+        /// </summary>
+        /// <param name="orderOption">The order option to add to the collection.</param>
+        private void AddComboBoxItem(IOrderOption orderOption)
+        {
+            // Add a new ComboBoxItem to the Orders collection
+            Orders.Add(new ComboBoxItem()
+            {
+                Content = orderOption.Description,
+                Name = orderOption.Name,
+                HorizontalAlignment = HorizontalAlignment.Stretch,
+                VerticalAlignment = VerticalAlignment.Center,
+                HorizontalContentAlignment = HorizontalAlignment.Stretch,
+                VerticalContentAlignment = VerticalAlignment.Center,
+                FontSize = 30,
+            });
+        }
 
         /// <summary>
         /// Called by Set accessor of each property that needs to notify it's value has changed.
