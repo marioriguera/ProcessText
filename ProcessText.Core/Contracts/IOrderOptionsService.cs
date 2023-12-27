@@ -9,9 +9,15 @@ namespace ProcessText.Core.Contracts
     public interface IOrderOptionsService
     {
         /// <summary>
-        /// Retrieves a dictionary of order options with their respective IDs.
+        /// Retrieves a enumerable collection of order options.
         /// </summary>
-        /// <returns>A dictionary where the key is the ID of the order option and the value is the IOrderOption instance.</returns>
+        /// <returns>A enumerable collection  of the order options.</returns>
         IEnumerable<IOrderOption> GetOrderOptions();
+
+        /// <summary>
+        /// Set order options.
+        /// </summary>
+        /// <param name="options">Enumerable collection of order options.</param>
+        void SetOrderOptions(IEnumerable<IOrderOption> options);
     }
 }
