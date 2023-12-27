@@ -2,8 +2,25 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:ProcessText"
+             xmlns:vm="clr-namespace:ProcessText.ViewModels"
+             xmlns:cnv="clr-namespace:ProcessText.Converters"
              ShutdownMode="OnExplicitShutdown">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <!--#region Dictionaries-->
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Dictionaries\Styles.xaml"/>
+                <ResourceDictionary Source="Dictionaries\Colors.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <!--#endregion-->
+
+            <!--#region ViewModels-->
+            <vm:MainWindowsViewModel x:Key="MainWindowsViewModelResource"/>
+            <!--#endregion-->
+
+            <!--#region Converters-->
+            <cnv:ToUpperCaseConverter x:Key="ToUpperCaseConverterResource"/>
+            <!--#endregion-->
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
