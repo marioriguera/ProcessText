@@ -1,8 +1,8 @@
-﻿using ProcessText.Core.Contracts;
+﻿using System;
+using System.Linq;
+using ProcessText.Core.Contracts;
 using ProcessText.Core.Contracts.Models;
 using ProcessText.Core.Models;
-using System;
-using System.Linq;
 
 namespace ProcessText.Core.Business
 {
@@ -22,7 +22,7 @@ namespace ProcessText.Core.Business
             TextStatistics statistics = new TextStatistics();
 
             // Count words
-            string[] words = text.Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] words = text.Split(new[] { ' ', '\t', '\n', '\r', '-', '_' }, StringSplitOptions.RemoveEmptyEntries);
             statistics.WordCount = (ulong)words.Length;
 
             // Count white spaces
