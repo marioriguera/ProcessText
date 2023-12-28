@@ -1,5 +1,5 @@
-﻿using ProcessText.Core.Contracts.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using ProcessText.Core.Contracts.Models;
 
 namespace ProcessText.Core.Contracts
 {

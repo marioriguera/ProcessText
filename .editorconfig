@@ -87,6 +87,9 @@ csharp_style_prefer_primary_constructors = true:suggestion
 dotnet_diagnostic.SA1309.severity = none
 dotnet_diagnostic.SA1503.severity = none
 
+# CS0618: El tipo o el miembro están obsoletos
+dotnet_diagnostic.CS0618.severity = none
+
 [*.vb]
 #### Estilos de nomenclatura ####
 

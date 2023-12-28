@@ -11,7 +11,7 @@ namespace ProcessText.Tests
     /// </summary>
     public class OrderFactoryAlphabeticAscTests
     {
-        private IOrderFactory _orderFactory;
+        private readonly IOrderFactory _orderFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OrderFactoryAlphabeticAscTests"/> class.
@@ -59,12 +59,14 @@ namespace ProcessText.Tests
         }
 
         /// <summary>
-        /// Tests the AlphabeticAsc order with a null input, expecting a NullReferenceException.
+        /// Tests the AlphabeticAsc order with a null input, expecting an empty enumeration.
         /// </summary>
         [Fact]
         public void AlphabeticAsc_Null_Test()
         {
-            Assert.Throws<NullReferenceException>(() => _orderFactory.GetOrderText("AlphabeticAsc", null).ToList());
+            var result = _orderFactory.GetOrderText($"AlphabeticAsc", null).ToList();
+
+            Assert.Empty(result);
         }
     }
 }

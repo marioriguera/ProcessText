@@ -178,6 +178,7 @@
     <Compile Include="Config\ConfigurationService.cs" />
     <Compile Include="Config\NLogConfigurator.cs" />
     <Compile Include="Converters\ToUpperCaseConverter.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="ViewModels\MainWindowsViewModel.cs" />
     <Page Include="Dictionaries\Colors.xaml">
       <SubType>Designer</SubType>

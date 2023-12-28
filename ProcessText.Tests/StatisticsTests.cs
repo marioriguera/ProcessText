@@ -9,7 +9,7 @@ namespace ProcessText.Tests
     /// </summary>
     public class StatisticsTests
     {
-        private ITextAnalyzer _textAnalyzer;
+        private readonly ITextAnalyzer _textAnalyzer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="StatisticsTests"/> class.

@@ -11,7 +11,7 @@ namespace ProcessText.Tests
     /// </summary>
     public class OrderFactoryAlphabeticDescTests
     {
-        private IOrderFactory _orderFactory;
+        private readonly IOrderFactory _orderFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OrderFactoryAlphabeticDescTests"/> class.
@@ -48,7 +48,7 @@ namespace ProcessText.Tests
         }
 
         /// <summary>
-        /// Tests the AlphabeticDesc order with an empty input.
+        /// Tests the AlphabeticDesc order with an empty input, expecting an empty enumeration.
         /// </summary>
         [Fact]
         public void AlphabeticDesc_Empty_Test()
@@ -59,12 +59,14 @@ namespace ProcessText.Tests
         }
 
         /// <summary>
-        /// Tests the AlphabeticDesc order with a null input, expecting a NullReferenceException.
+        /// Tests the AlphabeticDesc order with a null input, expecting an empty enumeration.
         /// </summary>
         [Fact]
         public void AlphabeticDesc_Null_Test()
         {
-            Assert.Throws<NullReferenceException>(() => _orderFactory.GetOrderText("AlphabeticDesc", null).ToList());
+            var result = _orderFactory.GetOrderText("AlphabeticDesc", null).ToList();
+
+            Assert.Empty(result);
         }
     }
 }

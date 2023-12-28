@@ -10,7 +10,7 @@ namespace ProcessText.Core.Business.Factory
     /// </summary>
     internal class OrderFactory : IOrderFactory
     {
-        private ITextAnalyzer _textAnalyzer;
+        private readonly ITextAnalyzer _textAnalyzer;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OrderFactory"/> class.

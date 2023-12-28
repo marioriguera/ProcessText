@@ -38,7 +38,8 @@ namespace ProcessText.Core.Business
         /// <inheritdoc/>
         public IEnumerable<string> SplitText(string text)
         {
-            return text.Split(new[] { ' ', '\t', '\n', '\r', '-', '_' }, StringSplitOptions.RemoveEmptyEntries);
+            if (string.IsNullOrEmpty(text)) return Enumerable.Empty<string>();
+            return text.Split(new[] { ' ', '\t', '\n', '\r', '-', '_', ',', '.', ';' }, StringSplitOptions.RemoveEmptyEntries);
         }
     }
 }

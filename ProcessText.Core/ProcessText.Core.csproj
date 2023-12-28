@@ -112,6 +112,7 @@
     <Compile Include="Contracts\IOrderOptionsService.cs" />
     <Compile Include="Contracts\Models\ITextStatistics.cs" />
     <Compile Include="Dependencies\Register.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Models\OrderOption.cs" />
     <Compile Include="Models\TextStatistics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

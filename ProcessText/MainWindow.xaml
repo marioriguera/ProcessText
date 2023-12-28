@@ -20,8 +20,8 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Label x:Name="Title" 
-                   Grid.Column="1" 
+            <Label x:Name="TitleLabel" 
+                   Grid.Column="1"
                    Content="{Binding Tittle, Converter={StaticResource ToUpperCaseConverterResource}}"
                    Style="{StaticResource AppTitleLabelStyle}"/>
             <Button x:Name="CloseButton" 
@@ -49,7 +49,7 @@
                        Style="{DynamicResource InsertTextTittleLabelStyle}"/>
                 <TextBox x:Name="TextArea"
                          Grid.Row="1"
-                         Text="{Binding TextToProcess}"
+                         Text="{Binding TextToProcess, IsAsync=True}"
                          Style="{DynamicResource TextBoxStyle}"/>
             </Grid>
             <Grid x:Name="OrderColumn"
@@ -72,7 +72,7 @@
                               Grid.Column="1"
                               Style="{DynamicResource ComboBoxStyle}"
                               ItemsSource="{Binding Orders}"
-                              SelectedItem="{Binding SelectedOrder}"
+                              SelectedItem="{Binding SelectedOrder, IsAsync=True}"
                               />
                 </Grid>
                 <ListView x:Name="ListOfWords"

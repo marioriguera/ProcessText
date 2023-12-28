@@ -10,7 +10,7 @@ namespace ProcessText.Tests
     /// </summary>
     public class GetOrderOptionTests
     {
-        private IOrderOptionsService _orderOptionsService;
+        private readonly IOrderOptionsService _orderOptionsService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="GetOrderOptionTests"/> class.

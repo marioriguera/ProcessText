@@ -10,11 +10,11 @@ namespace ProcessText.Core.Business
     /// </summary>
     internal class OrderOptionsService : IOrderOptionsService
     {
-        private List<IOrderOption> _orderOptions = new List<IOrderOption>()
+        private readonly List<IOrderOption> _orderOptions = new List<IOrderOption>()
                                     {
                                         { new OrderOption(1, "AlphabeticAsc", "Alfabetico ascendente") },
                                         { new OrderOption(2, "AlphabeticDesc", "Alfabetico descendente") },
-                                        { new OrderOption(3, "LenghtAsc", "Tamaño ascendente") },
+                                        { new OrderOption(3, "LengthAsc", "Tamaño ascendente") },
                                     };
 
         /// <summary>

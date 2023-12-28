@@ -1,18 +1,17 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Windows;
+using System.Windows.Controls;
+using Microsoft.Extensions.DependencyInjection;
 using NLog.Fluent;
 using ProcessText.Commands;
 using ProcessText.Config;
 using ProcessText.Core.Contracts;
 using ProcessText.Core.Contracts.Factory;
 using ProcessText.Core.Contracts.Models;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Configuration;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace ProcessText.ViewModels
 {
@@ -22,6 +21,9 @@ namespace ProcessText.ViewModels
     public class MainWindowsViewModel : INotifyPropertyChanged
     {
         #region Fields
+
+        // Locks
+        private readonly object _lockText = new object();
 
         // Fields for various properties
         private string _tittle;
@@ -40,9 +42,9 @@ namespace ProcessText.ViewModels
         private List<ListViewItem> _lines;
 
         // Services
-        private IOrderOptionsService _orderOptionsService;
-        private IOrderFactory _orderFactory;
-        private ITextAnalyzer _textAnalyser;
+        private readonly IOrderOptionsService _orderOptionsService;
+        private readonly IOrderFactory _orderFactory;
+        private readonly ITextAnalyzer _textAnalyser;
 
         #endregion
 
@@ -111,6 +113,7 @@ namespace ProcessText.ViewModels
                 if (_textToProcess != value)
                 {
                     _textToProcess = value;
+                    DoProcessText();
                     NotifyPropertyChanged(nameof(TextToProcess));
                 }
             }
@@ -303,8 +306,8 @@ namespace ProcessText.ViewModels
                 if (_selectedOrder != value)
                 {
                     _selectedOrder = value;
-                    NotifyPropertyChanged(nameof(SelectedOrder));
                     DoProcessText();
+                    NotifyPropertyChanged(nameof(SelectedOrder));
                 }
             }
         }
@@ -319,16 +322,21 @@ namespace ProcessText.ViewModels
         /// </summary>
         private void DoProcessText()
         {
-            try
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                IEnumerable<string> lines = _orderFactory.GetOrderText(SelectedOrder.Name, TextToProcess);
-                UpdateLines(lines);
-                UpdateStatistics();
-            }
-            catch (Exception ex)
-            {
-                Log.Error($"An unhandled exception has occurred processing the text: {TextToProcess} with order {SelectedOrder.Name}. Message: {ex.Message}.");
-            }
+                try
+                {
+                    if (SelectedOrder == null || TextToProcess == null) return;
+
+                    IEnumerable<string> lines = _orderFactory.GetOrderText(SelectedOrder.Name, TextToProcess);
+                    UpdateLines(lines);
+                    UpdateStatistics();
+                }
+                catch (Exception ex)
+                {
+                    Log.Error($"An unhandled exception has occurred processing the text: {TextToProcess} with order {SelectedOrder.Name}. Message: {ex.Message}.");
+                }
+            });
         }
 
         /// <summary>

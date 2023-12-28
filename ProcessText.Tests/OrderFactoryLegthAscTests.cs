@@ -11,7 +11,7 @@ namespace ProcessText.Tests
     /// </summary>
     public class OrderFactoryLegthAscTests
     {
-        private IOrderFactory _orderFactory;
+        private readonly IOrderFactory _orderFactory;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="OrderFactoryLegthAscTests"/> class.
@@ -48,7 +48,7 @@ namespace ProcessText.Tests
         }
 
         /// <summary>
-        /// Tests the LengthAsc order with an empty input.
+        /// Tests the LengthAsc order with an empty input, expecting an empty enumeration.
         /// </summary>
         [Fact]
         public void LengthAsc_Empty_Test()
@@ -59,12 +59,14 @@ namespace ProcessText.Tests
         }
 
         /// <summary>
-        /// Tests the LengthAsc order with a null input, expecting a NullReferenceException.
+        /// Tests the LengthAsc order with a null input, expecting an empty enumeration.
         /// </summary>
         [Fact]
         public void LengthAsc_Null_Test()
         {
-            Assert.Throws<NullReferenceException>(() => _orderFactory.GetOrderText("LengthAsc", null).ToList());
+            var result = _orderFactory.GetOrderText("LengthAsc", null).ToList();
+
+            Assert.Empty(result);
         }
     }
 }
