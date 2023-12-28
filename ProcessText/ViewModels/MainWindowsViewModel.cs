@@ -3,6 +3,7 @@ using NLog.Fluent;
 using ProcessText.Commands;
 using ProcessText.Config;
 using ProcessText.Core.Contracts;
+using ProcessText.Core.Contracts.Factory;
 using ProcessText.Core.Contracts.Models;
 using System;
 using System.Collections.Generic;
@@ -26,6 +27,7 @@ namespace ProcessText.ViewModels
         private string _tittle;
         private string _closeButtonContent;
         private ulong _numberOfHyphen;
+        private ulong _numberOfWords;
         private ulong _numberOfWhiteSpaces;
         private string _numberOfHyphenTittle;
         private string _numberOfWordsTittle;
@@ -34,10 +36,13 @@ namespace ProcessText.ViewModels
         private string _insertTextTittle;
         private string _orderTittle;
         private List<ComboBoxItem> _orders;
+        private ComboBoxItem _selectedOrder;
+        private List<ListViewItem> _lines;
 
         // Services
         private IOrderOptionsService _orderOptionsService;
-        private ComboBoxItem _selectedOrder;
+        private IOrderFactory _orderFactory;
+        private ITextAnalyzer _textAnalyser;
 
         #endregion
 
@@ -59,6 +64,7 @@ namespace ProcessText.ViewModels
             NumberOfWhiteSpaces = ulong.MinValue;
 
             Orders = new List<ComboBoxItem>();
+            Lines = new List<ListViewItem>();
 
             // Initializes commands.
             CloseAppCommand = new RelayCommand<object>(CanExecuteCloseAppCommand, ExecuteCloseAppCommand);
@@ -67,6 +73,8 @@ namespace ProcessText.ViewModels
             if (!ConfigurationService.IsInDesignMode)
             {
                 _orderOptionsService = ConfigurationService.Current.Host.Services.GetRequiredService<IOrderOptionsService>();
+                _orderFactory = ConfigurationService.Current.Host.Services.GetRequiredService<IOrderFactory>();
+                _textAnalyser = ConfigurationService.Current.Host.Services.GetRequiredService<ITextAnalyzer>();
                 UpdateOrders();
             }
         }
@@ -209,12 +217,12 @@ namespace ProcessText.ViewModels
         /// </summary>
         public ulong NumberOfWords
         {
-            get => _numberOfHyphen;
+            get => _numberOfWords;
             set
             {
-                if (_numberOfHyphen != value)
+                if (_numberOfWords != value)
                 {
-                    _numberOfHyphen = value;
+                    _numberOfWords = value;
                     NotifyPropertyChanged(nameof(NumberOfWords));
                 }
             }
@@ -230,7 +238,7 @@ namespace ProcessText.ViewModels
             {
                 if (_numberOfWhiteSpaces != value)
                 {
-                    _numberOfHyphen = value;
+                    _numberOfWhiteSpaces = value;
                     NotifyPropertyChanged(nameof(NumberOfWhiteSpaces));
                 }
             }
@@ -269,6 +277,22 @@ namespace ProcessText.ViewModels
         }
 
         /// <summary>
+        /// Gets or sets lines.
+        /// </summary>
+        public List<ListViewItem> Lines
+        {
+            get => _lines;
+            set
+            {
+                if (_lines != value)
+                {
+                    _lines = value;
+                    NotifyPropertyChanged(nameof(Lines));
+                }
+            }
+        }
+
+        /// <summary>
         /// Gets or sets selected order.
         /// </summary>
         public ComboBoxItem SelectedOrder
@@ -280,6 +304,7 @@ namespace ProcessText.ViewModels
                 {
                     _selectedOrder = value;
                     NotifyPropertyChanged(nameof(SelectedOrder));
+                    DoProcessText();
                 }
             }
         }
@@ -288,6 +313,67 @@ namespace ProcessText.ViewModels
         /// Gets or sets close app command.
         /// </summary>
         public RelayCommand<object> CloseAppCommand { get; set; }
+
+        /// <summary>
+        /// Processes the text based on the selected order and updates the UI with the ordered lines.
+        /// </summary>
+        private void DoProcessText()
+        {
+            try
+            {
+                IEnumerable<string> lines = _orderFactory.GetOrderText(SelectedOrder.Name, TextToProcess);
+                UpdateLines(lines);
+                UpdateStatistics();
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"An unhandled exception has occurred processing the text: {TextToProcess} with order {SelectedOrder.Name}. Message: {ex.Message}.");
+            }
+        }
+
+        /// <summary>
+        /// Updates statistics based on the processed text and selected order.
+        /// </summary>
+        private void UpdateStatistics()
+        {
+            try
+            {
+                var statistics = _textAnalyser.AnalyzeText(TextToProcess);
+
+                // Update statistics properties
+                NumberOfHyphen = statistics.HyphenCount;
+                NumberOfWords = statistics.WordCount;
+                NumberOfWhiteSpaces = statistics.SpaceCount;
+            }
+            catch (Exception ex)
+            {
+                Log.Error($"An unhandled exception has occurred processing the text: {TextToProcess} with order {SelectedOrder.Name}. Message: {ex.Message}.");
+            }
+        }
+
+        /// <summary>
+        /// Updates the UI with the provided lines after processing.
+        /// </summary>
+        /// <param name="lines">The ordered lines to be displayed in the UI.</param>
+        private void UpdateLines(IEnumerable<string> lines)
+        {
+            Lines.Clear();
+
+            foreach (string line in lines)
+            {
+                Lines.Add(new ListViewItem()
+                {
+                    Content = line,
+                    HorizontalAlignment = HorizontalAlignment.Left,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    HorizontalContentAlignment = HorizontalAlignment.Left,
+                    VerticalContentAlignment = VerticalAlignment.Center,
+                    FontSize = 25,
+                });
+            }
+
+            NotifyPropertyChanged(nameof(Lines));
+        }
 
         /// <summary>
         /// Updates the Orders collection based on the available order options.
@@ -307,8 +393,6 @@ namespace ProcessText.ViewModels
                 {
                     AddComboBoxItem(option);
                 }
-
-                SelectedOrder = Orders.FirstOrDefault();
             }
             catch (Exception ex)
             {

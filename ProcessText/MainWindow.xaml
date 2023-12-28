@@ -78,6 +78,7 @@
                 <ListView x:Name="ListOfWords"
                           Grid.Row="1"
                           Style="{DynamicResource ListViewStyle}"
+                          ItemsSource="{Binding Lines, IsAsync=True}"
                           />
             </Grid>
         </Grid>
@@ -100,7 +101,7 @@
                        Style="{DynamicResource TittleStatisticsLabelStyle}"/>
                 <Label x:Name="HyppenColumnValue" 
                        Grid.Row="1" 
-                       Content="{Binding NumberOfHyphen, Converter={StaticResource ToUpperCaseConverterResource}}" 
+                       Content="{Binding NumberOfHyphen, IsAsync=True}" 
                        Style="{DynamicResource ValueStatisticsLabelStyle}"/>
             </Grid>
             <Grid x:Name="WordsColumn" Grid.Column="1">
@@ -112,7 +113,7 @@
                        Grid.Row="0" Content="{Binding NumberOfWordsTittle, Converter={StaticResource ToUpperCaseConverterResource}}" 
                        Style="{DynamicResource TittleStatisticsLabelStyle}"/>
                 <Label x:Name="WordsColumnValue" 
-                       Grid.Row="1" Content="{Binding NumberOfWords, Converter={StaticResource ToUpperCaseConverterResource}}" 
+                       Grid.Row="1" Content="{Binding NumberOfWords, IsAsync=True}" 
                        Style="{DynamicResource ValueStatisticsLabelStyle}"/>
             </Grid>
             <Grid x:Name="WhiteSpacesColumn" Grid.Column="2">
@@ -124,7 +125,7 @@
                        Grid.Row="0" Content="{Binding NumberOfWhiteSpacesTittle, Converter={StaticResource ToUpperCaseConverterResource}}" 
                        Style="{DynamicResource TittleStatisticsLabelStyle}"/>
                 <Label x:Name="WhiteSpacesColumnValue" 
-                       Grid.Row="1" Content="{Binding NumberOfWhiteSpaces, Converter={StaticResource ToUpperCaseConverterResource}}" 
+                       Grid.Row="1" Content="{Binding NumberOfWhiteSpaces, IsAsync=True}" 
                        Style="{DynamicResource ValueStatisticsLabelStyle}"/>
             </Grid>
         </Grid>

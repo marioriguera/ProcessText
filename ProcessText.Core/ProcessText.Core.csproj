@@ -99,16 +99,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Business\AlphabeticAscOrder.cs" />
+    <Compile Include="Business\AlphabeticDescOrder.cs" />
+    <Compile Include="Business\Factory\OrderFactory.cs" />
+    <Compile Include="Business\LengthAscOrder.cs" />
     <Compile Include="Business\OrderOptionsService.cs" />
+    <Compile Include="Business\TextAnalyzer.cs" />
+    <Compile Include="Contracts\Factory\IOrderFactory.cs" />
+    <Compile Include="Contracts\IOrder.cs" />
+    <Compile Include="Contracts\ITextAnalyzer.cs" />
     <Compile Include="Contracts\Models\IOrderOption.cs" />
     <Compile Include="Contracts\IOrderOptionsService.cs" />
+    <Compile Include="Contracts\Models\ITextStatistics.cs" />
     <Compile Include="Dependencies\Register.cs" />
     <Compile Include="Models\OrderOption.cs" />
+    <Compile Include="Models\TextStatistics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Factory\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="..\.editorconfig">
       <Link>.editorconfig</Link>

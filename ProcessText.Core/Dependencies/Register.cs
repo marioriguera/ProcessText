@@ -1,7 +1,9 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProcessText.Core.Business;
+using ProcessText.Core.Business.Factory;
 using ProcessText.Core.Contracts;
+using ProcessText.Core.Contracts.Factory;
 
 namespace ProcessText.Core.Dependencies
 {
@@ -20,6 +22,8 @@ namespace ProcessText.Core.Dependencies
             hostBuilder.ConfigureServices((context, services) =>
             {
                 services.AddScoped<IOrderOptionsService, OrderOptionsService>();
+                services.AddScoped<IOrderFactory, OrderFactory>();
+                services.AddScoped<ITextAnalyzer, TextAnalyzer>();
             });
 
             return hostBuilder;

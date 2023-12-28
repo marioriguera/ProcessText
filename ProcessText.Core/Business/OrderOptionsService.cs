@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using ProcessText.Core.Contracts;
 using ProcessText.Core.Contracts.Models;
 using ProcessText.Core.Models;

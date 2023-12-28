@@ -1,0 +1,17 @@
+﻿using ProcessText.Core.Contracts.Models;
+
+namespace ProcessText.Core.Contracts
+{
+    /// <summary>
+    /// Represents an interface for analyzing text and generating text statistics.
+    /// </summary>
+    public interface ITextAnalyzer
+    {
+        /// <summary>
+        /// Analyzes the provided text and returns an instance of ITextStatistics containing relevant statistics.
+        /// </summary>
+        /// <param name="text">The text to be analyzed.</param>
+        /// <returns>An instance of ITextStatistics containing statistics on the provided text.</returns>
+        ITextStatistics AnalyzeText(string text);
+    }
+}

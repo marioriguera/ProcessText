@@ -1,10 +1,6 @@
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Moq;
-using ProcessText.Core.Contracts;
-using ProcessText.Core.Contracts.Models;
-using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Extensions.DependencyInjection;
+using ProcessText.Core.Contracts;
 using Xunit;
 
 namespace ProcessText.Tests
@@ -18,7 +14,7 @@ namespace ProcessText.Tests
         /// Ensures that GetOrderOptions returns the correct number of elements (three).
         /// </summary>
         [Fact]
-        public void GetOrderOptions_ReturnsCorrectNumberOfElements_Three()
+        public void GetOrderOptions_ReturnsCorrectNumberOfElements()
         {
             // Take service
             var orderOptionsService = ConfigurationServiceTests.Current.TestHost.Services.GetRequiredService<IOrderOptionsService>();
