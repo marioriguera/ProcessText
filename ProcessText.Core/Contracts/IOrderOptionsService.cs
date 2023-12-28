@@ -13,11 +13,5 @@ namespace ProcessText.Core.Contracts
         /// </summary>
         /// <returns>A enumerable collection  of the order options.</returns>
         IEnumerable<IOrderOption> GetOrderOptions();
-
-        /// <summary>
-        /// Set order options.
-        /// </summary>
-        /// <param name="options">Enumerable collection of order options.</param>
-        void SetOrderOptions(IEnumerable<IOrderOption> options);
     }
 }

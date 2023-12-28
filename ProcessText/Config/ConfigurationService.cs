@@ -7,7 +7,7 @@ namespace ProcessText.Config
     /// <summary>
     /// Manages configuration service values.
     /// </summary>
-    public class ConfigurationService
+    public sealed class ConfigurationService
     {
         #region Constructors
 

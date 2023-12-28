@@ -1,8 +1,10 @@
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Moq;
+using ProcessText.Core.Contracts;
+using ProcessText.Core.Contracts.Models;
 using System.Collections.Generic;
 using System.Linq;
-using Moq;
-using ProcessText.Core.Business;
-using ProcessText.Core.Contracts.Models;
 using Xunit;
 
 namespace ProcessText.Tests
@@ -18,21 +20,11 @@ namespace ProcessText.Tests
         [Fact]
         public void GetOrderOptions_ReturnsCorrectNumberOfElements_Three()
         {
-            // Arrange
-            var mockOrderOption = new Mock<IOrderOption>();
-            var orderOptions = new List<IOrderOption>
-                               {
-                                   mockOrderOption.Object,
-                                   mockOrderOption.Object,
-                                   mockOrderOption.Object,
-                               };
-
-            // ToDo: In production, change OrderOptionsService to internal. An this to IOrderOptionsService. 
-            var orderOptionsService = new Mock<OrderOptionsService>();
+            // Take service
+            var orderOptionsService = ConfigurationServiceTests.Current.TestHost.Services.GetRequiredService<IOrderOptionsService>();
 
             // Act
-            orderOptionsService.Object.SetOrderOptions(orderOptions);
-            var result = orderOptionsService.Object.GetOrderOptions();
+            var result = orderOptionsService.GetOrderOptions();
 
             // Assert
             Assert.Equal(3, result.ToList().Count);
