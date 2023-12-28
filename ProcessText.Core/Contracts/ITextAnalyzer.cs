@@ -1,4 +1,5 @@
 ﻿using ProcessText.Core.Contracts.Models;
+using System.Collections.Generic;
 
 namespace ProcessText.Core.Contracts
 {
@@ -13,5 +14,12 @@ namespace ProcessText.Core.Contracts
         /// <param name="text">The text to be analyzed.</param>
         /// <returns>An instance of ITextStatistics containing statistics on the provided text.</returns>
         ITextStatistics AnalyzeText(string text);
+
+        /// <summary>
+        /// Splits the provided text into an enumerable collection of strings.
+        /// </summary>
+        /// <param name="text">The text to be split.</param>
+        /// <returns>An IEnumerable of strings representing the individual elements of the text.</returns>
+        IEnumerable<string> SplitText(string text);
     }
 }

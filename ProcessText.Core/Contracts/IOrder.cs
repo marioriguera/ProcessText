@@ -8,10 +8,10 @@ namespace ProcessText.Core.Contracts
     public interface IOrder
     {
         /// <summary>
-        /// Orders the provided text and returns an IEnumerable of strings.
+        /// Orders the provided text IEnumerable and returns an IEnumerable of strings.
         /// </summary>
-        /// <param name="text">The input text to be ordered.</param>
+        /// <param name="textArray">The input text array to be ordered.</param>
         /// <returns>An IEnumerable of strings representing the ordered elements.</returns>
-        IEnumerable<string> Order(string text);
+        IEnumerable<string> Order(IEnumerable<string> textArray);
     }
 }

@@ -11,15 +11,15 @@ namespace ProcessText.Core.Business
     internal class AlphabeticAscOrder : IOrder
     {
         /// <inheritdoc/>
-        public IEnumerable<string> Order(string text)
+        public IEnumerable<string> Order(IEnumerable<string> textArray)
         {
-            if (string.IsNullOrEmpty(text))
+            if (!textArray.ToList().Any())
             {
                 return Enumerable.Empty<string>();
             }
 
-            // Split the string into words
-            string[] words = text.Split(new[] { ' ', '\t', '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+            // Transform to array.
+            string[] words = textArray.ToArray();
 
             // Order the words alphabetically in ascending order
             var orderedWords = words.OrderBy(word => word, StringComparer.CurrentCultureIgnoreCase);

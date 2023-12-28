@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using ProcessText.Core.Contracts;
 using ProcessText.Core.Contracts.Models;
@@ -22,7 +23,7 @@ namespace ProcessText.Core.Business
             TextStatistics statistics = new TextStatistics();
 
             // Count words
-            string[] words = text.Split(new[] { ' ', '\t', '\n', '\r', '-', '_' }, StringSplitOptions.RemoveEmptyEntries);
+            string[] words = SplitText(text).ToArray();
             statistics.WordCount = (ulong)words.Length;
 
             // Count white spaces
@@ -32,6 +33,12 @@ namespace ProcessText.Core.Business
             statistics.HyphenCount = (ulong)text.Count(c => c == '-');
 
             return statistics;
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<string> SplitText(string text)
+        {
+            return text.Split(new[] { ' ', '\t', '\n', '\r', '-', '_' }, StringSplitOptions.RemoveEmptyEntries);
         }
     }
 }

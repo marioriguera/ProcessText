@@ -10,11 +10,22 @@ namespace ProcessText.Core.Business.Factory
     /// </summary>
     internal class OrderFactory : IOrderFactory
     {
+        private ITextAnalyzer _textAnalyzer;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OrderFactory"/> class.
+        /// </summary>
+        /// <param name="textAnalyzer">The ITextAnalyzer instance used for text analysis.</param>
+        public OrderFactory(ITextAnalyzer textAnalyzer)
+        {
+            _textAnalyzer = textAnalyzer;
+        }
+
         /// <inheritdoc/>
         public IEnumerable<string> GetOrderText(string order, string text)
         {
             var instance = GetInstance(order);
-            return instance.Order(text);
+            return instance.Order(_textAnalyzer.SplitText(text));
         }
 
         /// <summary>
